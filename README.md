@@ -1,0 +1,2 @@
+# GABA_ANOVA
+ ANOVA analysis on the connectivity values extracted from significant clusters from the JAACAP paper (Gabbay, V., Ely, B. A., Li, Q., Bangaru, S. D., Panzer, A. M., Alonso, C. M., Castellanos, F. X., & Milham, M. P. (2013). Striatum-based circuitry of adolescent depression and anhedonia. Journal of the American Academy of Child and Adolescent Psychiatry, 52(6), 628–41.e13. https://doi.org/10.1016/j.jaac.2013.04.003)
