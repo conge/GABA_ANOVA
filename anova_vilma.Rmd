@@ -1,0 +1,169 @@
+ANOVA analysis on the connectivity values for GABA Project
+========================================================
+
+Qingyang Li | 2013/05/10 | Qingyang.Li@Childmind.org
+
+Intro
+-----  
+
+ANOVA analysis on the connectivity values extracted from significant clusters from the [JAACAP paper](http://linkinghub.elsevier.com/retrieve/pii/S0890856713001937) using the following models:
+1. Dx, GABAW, GLXW, GABAW*Dx, GLXW*Dx, Age, Sex, MeanFD, CSF, GM.
+2. AnhBC_fMRI, Age, Sex, MeanFD, CSF, GM.
+
+How to Read the resutls:
+---------
+
+The results are grouped into for categories based on the significant clusters. The order of clusters are listed at the begenning of the each section of the results. For each cluster, you will see the fomula of the linear regression model and then the beta estimates and the T and P values for each regressor. Then the anova report table will be there to show the ANOVA results.
+
+Let me know if you have any questions.
+
+MDD > CT
+-----------
+
+The results were show for the clusters below in following order:  
+
+Seeds / region of the cluster 
+* Right DC / dmPFC  
+* Left DRP / dmPFC	
+* Right DRP / Inferior Frontal Gyrus	
+* Right VRP / dmPFC and paracingulate	
+* Left NAc / dmPFC	
+* Right NAC / dmPFC	
+* Left VC / dmPFC	
+* Right VC / dmPFC and ACC
+
+
+```{r}
+input = read.csv('/Users/qingyang.li/Projects/Vilma_Adolescent_MDD_2011/GABA_ANOVA/ANOVA_input_MDDgtCT.csv')
+varlist = colnames(input)[3:10];
+#models = lapply(varlist,
+#                function(x) {lm(substitute(i ~ Diagnosis + GABAW + GLXW + GLXW* Diagnosis+ GABAW * Diagnosis + AgefMRI +Sex +CSF_PCT+GM_PCT,
+#                                           list(i = as.name(x))), data = input)
+#                             })
+
+for (i in seq(1:length(varlist))){
+  
+  Formula = paste(varlist[1], " ~ Diagnosis + GABAW + GLXW + GLXW* Diagnosis+ GABAW * Diagnosis + AgefMRI +Sex + MeanFD + CSF_PCT+GM_PCT")
+  model=lm(Formula, data = input)
+  model.anova = anova(model)
+  print('++++++++ Model +++++++++++++')
+  print(Formula)
+  print('+++++++ Model Summary ++++++')
+  print(summary(model))
+  print('+++++++ ANOVA results ++++++')
+  print(model.anova)
+  print('')
+
+  }
+
+```
+
+MDD < CT
+----------
+
+* Left DC / Superior Temporal  
+* Left DC / Occipital Cuneal	
+* Right DC / Occipital Cuneal	
+* Right DC / Occipital Lingual	
+* Right DC / Fusiform	
+* Left DRP / Occipital Fusiform	
+* Right DRP / Occipital Fusiform	
+* Right DRP / Lateral Occipital	
+* Right DRP / Lateral Occipital	
+* Right VRP / Cuneal	
+* Right VRP / Fusiform	
+* Right NAc / Middle Temporal	
+* Right NAc / Middle Occipital	
+* Right NAc / Occipital Fusiform	
+* Left VC / Postcentral	
+* Right VC / Occipital Fusiform	
+* Right VC / Occipital Cuneal	
+* Right DCP / Lateral Occipital
+
+```{r}
+input = read.csv('/Users/qingyang.li/Projects/Vilma_Adolescent_MDD_2011/GABA_ANOVA/ANOVA_input_MDDltCT.csv')
+varlist = colnames(input)[3:20];
+
+for (i in seq(1:length(varlist))){
+  
+  Formula = paste(varlist[1], " ~ Diagnosis + GABAW + GLXW + GLXW* Diagnosis+ GABAW * Diagnosis + AgefMRI +Sex + MeanFD +CSF_PCT+GM_PCT")
+  model=lm(Formula, data = input)
+  model.anova = anova(model)
+  print('++++++++ Model +++++++++++++')
+  print(Formula)
+  print('+++++++ Model Summary ++++++')
+  print(summary(model))
+  print('+++++++ ANOVA results ++++++')
+  print(model.anova)
+  print('')
+
+  }
+
+```
+
+ANH > 0
+--------
+
+* Left DC / SMA  
+* Right DC / Middle Frontal	
+* Right DRP / Supramarginal	
+* Left VC / SMA	* Left VC / Precuneus	
+* Right VC / Supramarginal	
+* Right VC / pgACC
+
+```{r}
+input = read.csv('/Users/qingyang.li/Projects/Vilma_Adolescent_MDD_2011/GABA_ANOVA/ANH_pos.csv')
+varlist = colnames(input)[3:10];
+
+
+for (i in seq(1:length(varlist))){
+  
+  Formula = paste(varlist[1], " ~  + AnhBC.fMRI + AgefMRI +Sex + MeanFD + CSF_PCT + GM_PCT")
+  model=lm(Formula, data = input)
+  model.anova = anova(model)
+  print('++++++++ Model +++++++++++++')
+  print(Formula)
+  print('+++++++ Model Summary ++++++')
+  print(summary(model))
+  print('+++++++ ANOVA results ++++++')
+  print(model.anova)
+  print('')
+
+  }
+
+```
+
+ANH < 0
+---------
+
+* Right DC / Precuneus and PCC  
+* Left NAC / sgACC and Caudate	
+* Right NAc / Occipital Fusiform
+
+```{r}
+input = read.csv('/Users/qingyang.li/Projects/Vilma_Adolescent_MDD_2011/GABA_ANOVA/ANH_neg.csv')
+varlist = colnames(input)[3:10];
+
+
+for (i in seq(1:length(varlist))){
+  
+  Formula = paste(varlist[1], " ~  + AnhBC.fMRI + AgefMRI +Sex + MeanFD + CSF_PCT + GM_PCT")
+  model=lm(Formula, data = input)
+  model.anova = anova(model)
+  print('++++++++ Model +++++++++++++')
+  print(Formula)
+  print('+++++++ Model Summary ++++++')
+  print(summary(model))
+  print('+++++++ ANOVA results ++++++')
+  print(model.anova)
+  print('')
+
+  }
+
+```
+You can also embed plots, for example:
+
+```{r fig.width=7, fig.height=6}
+plot(cars)
+```
+
